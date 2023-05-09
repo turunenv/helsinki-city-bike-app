@@ -7,6 +7,7 @@ const Station = sequelize.define(
     stationId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
+      allowNull: false,
     },
     nameFi: {
       type: DataTypes.STRING,
@@ -51,4 +52,4 @@ const Station = sequelize.define(
 
 Station.removeAttribute('id');
 
-export default Station;
+export { Station };
