@@ -1,0 +1,10 @@
+<%- include('partials/header') %>
+<%- include('partials/navigation') %>
+
+<ul>
+  <% for (let station of stations) { %>
+    <li><%= station.stationId %> <%= station.nameFi %></li>
+  <% };%>
+</ul>
+
+<%- include('partials/footer') %>
