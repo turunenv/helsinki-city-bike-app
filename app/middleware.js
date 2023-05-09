@@ -5,6 +5,11 @@ const errorHandler = (err, req, res, next) => {
   const title = 'Oops! Looks like something went wrong:';
 
   res.status(400).render('error', { title, message: err.message });
-}
+};
 
-export { errorHandler }
+const requestLogger = (req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+};
+
+export { errorHandler, requestLogger };
