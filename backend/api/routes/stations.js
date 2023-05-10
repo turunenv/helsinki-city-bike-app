@@ -13,4 +13,14 @@ stationRouter.get('/', async (req, res, next) => {
   }
 });
 
+stationRouter.get('/:stationId', async (req, res, next) => {
+  try {
+    const station = await stationService.getStationById(req.params.stationId);
+    res.set('Access-Control-Allow-Origin', '*');
+    res.json(station);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export { stationRouter };
