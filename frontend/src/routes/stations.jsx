@@ -1,18 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { Link, useLoaderData } from 'react-router-dom';
+import {  getAllStations } from '../services/stationService';
 
 import PaginationControls from '../components/PaginationControls';
 
+//data loader function
+export async function loader() {
+  const stations = await getAllStations();
+  return { stations };
+}
+
 export default function Stations() {
-  const [stations, setStations] = useState([]);
   const [stationPage, setStationPage] = useState(0);
 
+  const { stations } = useLoaderData();
+  
   const maxStationsPerPage = 30;
-
-  useEffect(() => {
-    fetch('http://localhost:3000/api/stations')
-    .then(stations => stations.json())
-    .then(stationList => setStations(stationList));
-  }, []);
 
   //calculate indeces to show based on stationPage
   let startIndex = stationPage * maxStationsPerPage;
@@ -29,7 +32,9 @@ export default function Stations() {
           {stationsToRender.map(station=> {
             return (
               <li key={station.stationId}>
-                {station.nameFi}
+                <Link to={`/stations/${station.stationId}`}>
+                  {station.nameFi}
+                </Link>
               </li>
             )
           })}
