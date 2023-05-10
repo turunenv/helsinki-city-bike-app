@@ -26,7 +26,7 @@ app.use(requestLogger);
 
 //base route
 app.get('/api', (req, res) => {
-  res.json({message: 'welcome!'});
+  res.json({ message: 'welcome!' });
 });
 
 app.use('/api/stations', stationRouter);
