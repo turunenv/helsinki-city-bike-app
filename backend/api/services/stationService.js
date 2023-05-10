@@ -5,4 +5,12 @@ const getAllStations = async () => {
   return stations;
 };
 
-export { getAllStations };
+const getStationById = async (id) => {
+  const station = await Station.findOne({ where: { stationId: id} });
+  return station;
+}
+
+export { 
+  getAllStations,
+  getStationById,
+ };
