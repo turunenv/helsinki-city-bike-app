@@ -4,9 +4,9 @@ import { fileURLToPath } from 'url';
 import { dirname, sep } from 'path';
 
 import { stationRouter } from './api/routes/stations.js';
+import { journeyRouter } from './api/routes/journeys.js';
 
 import { errorHandler, requestLogger } from './middleware.js';
-import { error } from 'console';
 
 //configuration
 const __dirname = dirname(fileURLToPath(import.meta.url)) + sep;
@@ -21,25 +21,20 @@ const config = {
 
 const app = express();
 
-app.use(express.static(config.dir.public));
-
-app.set('view engine', 'ejs');
-app.set('views', config.dir.views);
-
 //log requests
 app.use(requestLogger);
 
 //base route
-app.get('/', (req, res) => {
-  res.render('index');
+app.get('/api', (req, res) => {
+  res.json({message: 'welcome!'});
 });
 
-app.use('/stations', stationRouter);
+app.use('/api/stations', stationRouter);
+app.use('/api/journeys', journeyRouter);
 
 //handle requests to non-existent paths
 app.use((req, res) => {
-  const title = 'This page does not exist';
-  res.render('error', { title, message: req.url });
+  res.status(404).json({ error: 'This page does not exist.' });
 });
 
 //handle other errors
