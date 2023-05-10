@@ -1,6 +1,6 @@
 import sequelize from '../../database/database.js';
 import { DataTypes } from 'sequelize';
-import Station from './stationModel.js';
+import { Station } from './stationModel.js';
 
 const Journey = sequelize.define(
   'Journey',
@@ -25,7 +25,7 @@ const Journey = sequelize.define(
       references: {
         model: Station,
         key: 'stationId',
-      }
+      },
     },
     arrivalStationId: {
       type: DataTypes.DATE,
@@ -33,7 +33,7 @@ const Journey = sequelize.define(
       references: {
         model: Station,
         key: 'stationId',
-      }
+      },
     },
     travelDist: {
       type: DataTypes.INTEGER,
@@ -50,6 +50,16 @@ const Journey = sequelize.define(
     timestamps: false,
   }
 );
+
+Journey.belongsTo(Station, {
+  as: 'departureStation',
+  foreignKey: 'departureStationId',
+});
+
+Journey.belongsTo(Station, {
+  as: 'arrivalStation',
+  foreignKey: 'arrivalStationId',
+});
 
 Journey.removeAttribute('id');
 
