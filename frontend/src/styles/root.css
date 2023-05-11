@@ -61,6 +61,7 @@ html {
   border: 4px solid #333;
   border-radius: 5px;
   background-color: #eee;
+  overflow: hidden;
 }
 
 .hero-section > div > p {
