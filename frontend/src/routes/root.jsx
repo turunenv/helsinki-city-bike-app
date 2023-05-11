@@ -1,10 +1,11 @@
 import { Outlet, Link } from 'react-router-dom';
+import '../styles/root.css';
 
 export default function Root() {
   return (
     <>
-      <header>
-        <nav>
+      <header className='main-header'>
+        <nav className='main-nav'>
           <ul>
             <li>
               <Link to={'/'}>Home</Link>

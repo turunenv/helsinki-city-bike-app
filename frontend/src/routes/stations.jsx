@@ -28,17 +28,19 @@ export default function Stations() {
   return (
     <>
       <h1>Bike Stations</h1>
-        <ul>
-          {stationsToRender.map(station=> {
-            return (
-              <li key={station.stationId}>
-                <Link to={`/stations/${station.stationId}`}>
-                  {station.nameFi}
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
+        <div className="data-container">
+          <ul>
+            {stationsToRender.map(station=> {
+              return (
+                <li key={station.stationId}>
+                  <Link to={`/stations/${station.stationId}`}>
+                    {station.nameFi}
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
         <PaginationControls 
           page={stationPage}
           setPage={setStationPage}
