@@ -42,7 +42,6 @@ export default function Stations() {
           </ul>
         </div>
         <PaginationControls 
-          isFirstPage={stationPage === 0}
           page={stationPage}
           setPage={setStationPage}
           isLastPage={isLastPage}
