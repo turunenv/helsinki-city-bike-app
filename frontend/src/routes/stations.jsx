@@ -15,7 +15,7 @@ export default function Stations() {
 
   const { stations } = useLoaderData();
   
-  const maxStationsPerPage = 30;
+  const maxStationsPerPage = 40;
 
   //calculate indeces to show based on stationPage
   let startIndex = stationPage * maxStationsPerPage;
@@ -42,11 +42,11 @@ export default function Stations() {
           </ul>
         </div>
         <PaginationControls 
+          isFirstPage={stationPage === 0}
           page={stationPage}
           setPage={setStationPage}
           isLastPage={isLastPage}
         />
-      
     </>
   )
 }

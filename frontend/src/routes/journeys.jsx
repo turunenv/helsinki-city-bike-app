@@ -88,7 +88,6 @@ export default function Journeys() {
         </button>
       )}
       <PaginationControls 
-        isFirstPage={page === 0}
         page={page}
         setPage={setPage}
         isLastPage={isLastPage}
