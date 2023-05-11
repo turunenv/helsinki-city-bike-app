@@ -20,7 +20,7 @@ const Journey = sequelize.define(
       allowNull: false,
     },
     departureStationId: {
-      type: DataTypes.DATE,
+      type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: Station,
@@ -28,7 +28,7 @@ const Journey = sequelize.define(
       },
     },
     arrivalStationId: {
-      type: DataTypes.DATE,
+      type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: Station,
