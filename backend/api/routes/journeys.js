@@ -18,21 +18,26 @@ journeyRouter.get('/', async (req, res, next) => {
   if (orderBy && !orderOptions.includes(orderBy)) {
     orderBy = null;
   } else if (orderBy === 'dist') {
-    orderBy = 'travelDist'
+    orderBy = 'travelDist';
   }
 
   if (orderBy && req.query.desc === 'true') {
     desc = true;
   }
-  
-  console.log('orderBy: ', orderBy)
+
+  console.log('orderBy: ', orderBy);
   try {
-    const journeys = await journeyService.getJourneyBatch(offset * batchSize, batchSize, orderBy, desc);
+    const journeys = await journeyService.getJourneyBatch(
+      offset * batchSize,
+      batchSize,
+      orderBy,
+      desc
+    );
     res.set('Access-Control-Allow-Origin', '*');
     res.json(journeys);
   } catch (error) {
     next(error);
   }
-})
+});
 
 export { journeyRouter };

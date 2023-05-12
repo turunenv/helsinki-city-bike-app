@@ -4,7 +4,7 @@ const errorHandler = (err, req, res, next) => {
 
   const message = 'Oops! Looks like something went wrong:';
 
-  res.status(status).json({error: message});
+  res.status(status).json({ error: message });
 };
 
 const requestLogger = (req, res, next) => {
