@@ -119,7 +119,8 @@ cursor.execute(
     
     PRIMARY KEY (journey_id),
     FOREIGN KEY (departure_station_id) REFERENCES bike_station(station_id),
-    FOREIGN KEY (arrival_station_id) REFERENCES bike_station(station_id)
+    FOREIGN KEY (arrival_station_id) REFERENCES bike_station(station_id),
+    UNIQUE(departure, arrival, departure_station_id, arrival_station_id, travel_dist, duration)
     )
 """
 )
@@ -164,6 +165,16 @@ journey_files = os.listdir("./dataset/journeys/")
 
 journey_data = []
 
+uniques = set()
+# detect files containing duplicates
+files_with_duplicates = {
+    5: False,
+    6: False,
+    7: False,
+}
+entries = 0
+duplicates = 0
+
 for file_name in journey_files:
     with open(
         f"./dataset/journeys/{file_name}",
@@ -172,7 +183,30 @@ for file_name in journey_files:
     ) as journey_file:
         journey_reader = csv.DictReader(journey_file)
 
+        if "5" in file_name:
+            file_num = 5
+        elif "6" in file_name:
+            file_num = 6
+        elif "7" in file_name:
+            file_num = 7
+
         for journey in journey_reader:
+            entries += 1
+            entry = (
+                journey["Departure"],
+                journey["Return"],
+                journey["Departure station id"],
+                journey["Return station id"],
+                journey["Covered distance (m)"],
+                journey["Duration (sec.)"],
+            )
+            uniques.add(entry)
+            if len(uniques) < entries:
+                duplicates += 1
+                entries -= 1
+
+                if not files_with_duplicates[file_num]:
+                    files_with_duplicates[file_num] = True
             try:
                 journey_entry = (
                     journey["Departure"],
@@ -195,7 +229,8 @@ for file_name in journey_files:
                 journey_data.append(journey_entry)
 
             except:
-                print(f"failed to add journey entry in file {file_name}, row {idx+2}")
+                # print(f"failed to add journey entry in file {file_name}, row {idx+2}")
+                continue
 
 query = """
     INSERT IGNORE INTO journey
@@ -208,12 +243,18 @@ query = """
 indeces = list(range(0, len(journey_data), len(journey_data) // 100))
 indeces.append(len(journey_data))
 
+#print("indeces: ", indeces)
+#print("last item (should be len(items)):", indeces[-1])
+
 for i in range(len(indeces) - 1):
     start = indeces[i]
     stop = indeces[i + 1]
 
     cursor.executemany(query, journey_data[start:stop])
-    print("success")
+    #print("success")
+
+#print(f"total count of duplicates: {duplicates}")
+#print("files with dupes: ", files_with_duplicates)
 
 db.commit()
 cursor.close()
