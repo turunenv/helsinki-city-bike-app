@@ -16,9 +16,18 @@ export default function Journeys() {
   const maxJourneysPerPage = 25;
 
   useEffect(() => {
-    console.log('useEffect FIRED')
+    let fetchNotCancelled = true;
+    console.log('useEffect FIRED');
     getJourneyBatch(batchOffset, orderBy, orderByDesc)
-    .then(newJourneys => setJourneys(newJourneys));
+    .then(newJourneys => {
+      if (fetchNotCancelled) {
+        setJourneys(newJourneys);
+      }
+    }
+    )
+    return () => {
+      fetchNotCancelled = false;
+    }
   }, [batchOffset, orderBy, orderByDesc])
 
   let startIndex = page * maxJourneysPerPage;

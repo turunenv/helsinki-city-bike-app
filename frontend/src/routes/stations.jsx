@@ -21,9 +21,7 @@ export default function Stations() {
     setStationPage(0);
   }
   
-  const maxStationsPerPage = 40;
-
-  
+  const maxStationsPerPage = 30;
 
   let selectedStations = stations;
   if (stationFilter) {
@@ -43,26 +41,34 @@ export default function Stations() {
   return (
     <>
       <h1>Bike Stations</h1>
-      <label>Filter by name:
+      <div className="station-filter" >
+        <label htmlFor="station-filter-input">
+          <b>Filter by name:</b>
+        </label>
         <input 
           type="text" 
           value={stationFilter}
           onChange={handleFilterChange}
+          id="station-filter-input"
         >
         </input>
-      </label>
+      </div>
       <div className="data-container">
-        <ul>
-          {stationsToRender.map(station=> {
-            return (
-              <li key={station.stationId}>
-                <Link to={`/stations/${station.stationId}`}>
-                  {station.nameFi}
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
+        <table>
+          <tbody>
+            {stationsToRender.map(station=> {
+              return (
+                <tr key={station.stationId}>
+                  <td>
+                    <Link to={`/stations/${station.stationId}`}>
+                      {station.nameFi}
+                    </Link>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </div>
       <PaginationControls 
         page={stationPage}

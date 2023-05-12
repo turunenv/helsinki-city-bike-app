@@ -1,5 +1,4 @@
 import { Outlet, Link } from 'react-router-dom';
-import '../styles/root.css';
 
 export default function Root() {
   return (
@@ -19,7 +18,9 @@ export default function Root() {
           </ul>
         </nav>
       </header>
+      <main>
         <Outlet />
+      </main>
       <footer></footer>
 
     </>

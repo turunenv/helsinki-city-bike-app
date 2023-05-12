@@ -25,7 +25,7 @@ export default function JourneyFilter({
   return (
     <div className='journey-filter-container'>
       <fieldset id="journey-order-criterion">
-        <legend>Order By:</legend>
+        <legend><b>Order By:</b></legend>
         <div>
           <input 
           type="radio" 
