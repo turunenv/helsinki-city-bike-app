@@ -9,8 +9,6 @@ async function getJourneyBatch(offset, orderBy, desc) {
     }
   }
 
-  console.log(`req url is ${reqUrl}`);
-
   const journeys = await fetch(reqUrl);
   return journeys.json();
 }

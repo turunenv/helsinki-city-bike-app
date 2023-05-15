@@ -17,7 +17,6 @@ export default function Journeys() {
 
   useEffect(() => {
     let fetchNotCancelled = true;
-    console.log('useEffect FIRED');
     getJourneyBatch(batchOffset, orderBy, orderByDesc)
     .then(newJourneys => {
       if (fetchNotCancelled) {
