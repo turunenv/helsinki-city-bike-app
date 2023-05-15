@@ -5,7 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "mocha",
+    "test": "NODE_ENV=TEST mocha './api/test/*.js' --exit",
     "dev": "nodemon server.js"
   },
   "author": "Verneri Turunen",
