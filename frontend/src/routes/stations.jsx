@@ -26,7 +26,7 @@ export default function Stations() {
   let selectedStations = stations;
   if (stationFilter) {
     selectedStations = stations.filter(station => {
-      return station.nameFi.toLowerCase().includes(stationFilter)
+      return station.nameFi.toLowerCase().includes(stationFilter.toLowerCase())
     })
   } 
 
