@@ -7,6 +7,7 @@ import { stationRouter } from './api/routes/stations.js';
 import { journeyRouter } from './api/routes/journeys.js';
 
 import { errorHandler, requestLogger } from './middleware.js';
+import logger from './utils/logger.js';
 
 //configuration
 const __dirname = dirname(fileURLToPath(import.meta.url)) + sep;
@@ -41,7 +42,7 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 app.listen(config.port, () => {
-  console.log(`app running on port ${config.port}`);
+  logger.info(`app running on port ${config.port}`);
 });
 
 export default app;

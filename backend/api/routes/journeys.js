@@ -1,10 +1,12 @@
 import { Router } from 'express';
 import * as journeyService from '../services/journeyService.js';
 
+import logger from '../../utils/logger.js';
+
 const journeyRouter = Router();
 
 journeyRouter.get('/', async (req, res, next) => {
-  console.log(req.url);
+  logger.info(req.url);
 
   const batchSize = 1000;
 
@@ -25,7 +27,6 @@ journeyRouter.get('/', async (req, res, next) => {
     desc = true;
   }
 
-  console.log('orderBy: ', orderBy);
   try {
     const journeys = await journeyService.getJourneyBatch(
       offset * batchSize,
