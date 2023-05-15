@@ -132,5 +132,15 @@ fieldset {
   margin-left: 5px;
 }
 
+/* ERROR PAGE */
+#error-page {
+  margin: 10px;
+  padding: 5px;
+}
+
+#error-status {
+  color: red;
+}
+
 
 

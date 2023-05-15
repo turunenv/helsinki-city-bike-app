@@ -16,10 +16,15 @@ stationRouter.get('/', async (req, res, next) => {
 });
 
 stationRouter.get('/:stationId', async (req, res, next) => {
-  const id = Number(req.params.stationId);
-  console.log('id is: ', id);
+  const id = req.params.stationId;
+
+  res.set('Access-Control-Allow-Origin', '*');
+
   try {
     let station = await stationService.getStationById(id);
+    if (!station) {
+      throw new Error(`Station with id ${id} does not exist!`); 
+    }
     const stationAsDepartureCount = await Journey.count({
       where: {
         departureStationId: id,
@@ -36,9 +41,6 @@ stationRouter.get('/:stationId', async (req, res, next) => {
     station.asDepartureCount = stationAsDepartureCount;
     station.asArrivalCount = stationAsArrivalCount;
 
-    console.log(station);
-
-    res.set('Access-Control-Allow-Origin', '*');
     res.json(station);
   } catch (error) {
     next(error);
