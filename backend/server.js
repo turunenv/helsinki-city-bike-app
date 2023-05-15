@@ -43,3 +43,5 @@ app.use(errorHandler);
 app.listen(config.port, () => {
   console.log(`app running on port ${config.port}`);
 });
+
+export default app;
