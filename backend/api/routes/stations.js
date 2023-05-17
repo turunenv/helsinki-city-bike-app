@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import * as stationService from '../services/stationService.js';
+import * as stationController from '../controllers/stationController.js';
 import { Journey } from '../models/journeyModel.js';
 
 const stationRouter = Router();
 
 stationRouter.get('/', async (req, res, next) => {
   try {
-    const stations = await stationService.getAllStations();
+    const stations = await stationController.getAllStations();
 
     res.json(stations);
   } catch (error) {
@@ -18,9 +18,9 @@ stationRouter.get('/:stationId', async (req, res, next) => {
   const id = req.params.stationId;
 
   try {
-    let station = await stationService.getStationById(id);
+    let station = await stationController.getStationById(id);
     if (!station) {
-      throw new Error(`Station with id ${id} does not exist!`); 
+      throw new Error(`Station with id ${id} does not exist!`);
     }
     const stationAsDepartureCount = await Journey.count({
       where: {
@@ -43,5 +43,7 @@ stationRouter.get('/:stationId', async (req, res, next) => {
     next(error);
   }
 });
+
+stationRouter.post('/');
 
 export { stationRouter };
