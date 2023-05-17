@@ -3,7 +3,10 @@ env
 .env
 test.py
 node_modules
+__pycache__/
 
 
 2021-0?.csv
 helsinki_espoo_bike_stations.csv
+
+

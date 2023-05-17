@@ -5,17 +5,20 @@ dotenv.config();
 
 const DB_USER = process.env.DB_USER;
 const DB_PASSWD = process.env.DB_PASSWORD;
+const HOST = process.env.HOST || 'localhost';
 
 const db_config = {
-  host: 'localhost',
+  host: HOST,
   dialect: 'mysql',
 };
 
-//sequelize db config object's 'logging'-option can only be false or a function
+let database = 'bikejourneydb';
+
 if (process.env.NODE_ENV === 'TEST') {
   db_config.logging = false;
+  database = 'test_db';
 }
 
-const sequelize = new Sequelize('bikejourneydb', DB_USER, DB_PASSWD, db_config);
+const sequelize = new Sequelize(database, DB_USER, DB_PASSWD, db_config);
 
 export default sequelize;
