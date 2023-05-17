@@ -8,7 +8,6 @@ stationRouter.get('/', async (req, res, next) => {
   try {
     const stations = await stationService.getAllStations();
 
-    res.set('Access-Control-Allow-Origin', '*');
     res.json(stations);
   } catch (error) {
     next(error);
@@ -17,8 +16,6 @@ stationRouter.get('/', async (req, res, next) => {
 
 stationRouter.get('/:stationId', async (req, res, next) => {
   const id = req.params.stationId;
-
-  res.set('Access-Control-Allow-Origin', '*');
 
   try {
     let station = await stationService.getStationById(id);

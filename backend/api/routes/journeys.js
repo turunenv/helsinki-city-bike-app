@@ -34,7 +34,6 @@ journeyRouter.get('/', async (req, res, next) => {
       orderBy,
       desc
     );
-    res.set('Access-Control-Allow-Origin', '*');
     res.json(journeys);
   } catch (error) {
     next(error);

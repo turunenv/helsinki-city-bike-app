@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 
 import { fileURLToPath } from 'url';
 import { dirname, sep } from 'path';
@@ -21,6 +22,8 @@ const config = {
 };
 
 const app = express();
+
+app.use(cors())
 
 //log requests
 app.use(requestLogger);
