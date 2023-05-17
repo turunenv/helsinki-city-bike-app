@@ -1,4 +1,4 @@
-# a python script to create the database
+# a python script to create and validate the database
 
 import csv
 import re
@@ -6,16 +6,6 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 from datetime import datetime
-
-load_dotenv()
-
-db = mysql.connector.connect(
-    host="localhost", user=os.getenv("DB_USER"), password=os.getenv("DB_PASSWORD")
-)
-
-cursor = db.cursor()
-
-cursor.execute("DROP DATABASE IF EXISTS bikejourneydb")
 
 
 # helper function to ensure we don't add empty strings instead of null to the database
@@ -60,7 +50,6 @@ def map_station_csv_cols_to_db_cols(dict):
 
     return ret_dict
 
-
 def construct_insert_query(table_name, dict):
     col_names = "("
     values = "("
@@ -77,137 +66,187 @@ def construct_insert_query(table_name, dict):
 
     return query
 
+def validate_journey(journey_entry):
+    try:
+        # check the requirements given in the assignment
+        departure = datetime.strptime(journey_entry[0], "%Y-%m-%dT%H:%M:%S")
+        arrival = datetime.strptime(journey_entry[1], "%Y-%m-%dT%H:%M:%S")
+        duration = (arrival - departure).total_seconds()
 
-# create the database
-cursor.execute("CREATE DATABASE IF NOT EXISTS bikejourneydb")
-cursor.execute("USE bikejourneydb")
+        dist = int(journey_entry[4])
 
-cursor.execute("SET GLOBAL max_allowed_packet=16777216")
+        if duration < 10 or dist < 10:
+            return False
 
-# create the tables
-cursor.execute(
-    """
-CREATE TABLE bike_station (
-    station_id SMALLINT NOT NULL,
-    name_fi VARCHAR(40),
-    name_swe VARCHAR(40),
-    name_eng VARCHAR(40),
-    address_fi VARCHAR(40),
-    address_swe VARCHAR(40),
-    city_fi VARCHAR(40),
-    city_swe VARCHAR(40),
-    operator VARCHAR(40),
-    capacity SMALLINT,
-    longitude FLOAT,
-    latitude FLOAT,
+        dep_station_id = int(journey_entry[2])
+        arr_station_id = int(journey_entry[3])
 
-    PRIMARY KEY(station_id)
+        if dep_station_id < 0 or arr_station_id < 0:
+            return False
+        
+        return True
+
+    except:
+        return False
+
+def main():
+    load_dotenv()
+
+    db = mysql.connector.connect(
+        host=os.getenv("HOST"), user=os.getenv("DB_USER"), password=os.getenv("DB_PASSWORD")
     )
-"""
-)
 
-cursor.execute(
+    cursor = db.cursor()
+
+    cursor.execute("DROP DATABASE IF EXISTS bikejourneydb")
+    cursor.execute("DROP DATABASE IF EXISTS test_db")
+
+    # create the database and test database
+    cursor.execute("CREATE DATABASE IF NOT EXISTS bikejourneydb")
+    cursor.execute("CREATE DATABASE IF NOT EXISTS test_db")
+
+    cursor.execute("USE bikejourneydb")
+
+    cursor.execute("SET GLOBAL max_allowed_packet=16777216")
+
+    # create the tables
+    cursor.execute(
+        """
+    CREATE TABLE bike_station (
+        station_id SMALLINT NOT NULL,
+        name_fi VARCHAR(40),
+        name_swe VARCHAR(40),
+        name_eng VARCHAR(40),
+        address_fi VARCHAR(40),
+        address_swe VARCHAR(40),
+        city_fi VARCHAR(40),
+        city_swe VARCHAR(40),
+        operator VARCHAR(40),
+        capacity SMALLINT,
+        longitude FLOAT,
+        latitude FLOAT,
+
+        PRIMARY KEY(station_id)
+        )
     """
-    CREATE TABLE journey (
-    journey_id INT NOT NULL AUTO_INCREMENT,
-    departure DATETIME NOT NULL,
-    arrival DATETIME NOT NULL,
-    departure_station_id SMALLINT,
-    arrival_station_id SMALLINT,
-    travel_dist INT NOT NULL,
-    duration INT AS (TIMESTAMPDIFF(SECOND, departure, arrival)),
-    
-    PRIMARY KEY (journey_id),
-    FOREIGN KEY (departure_station_id) REFERENCES bike_station(station_id),
-    FOREIGN KEY (arrival_station_id) REFERENCES bike_station(station_id),
-    UNIQUE(departure, arrival, departure_station_id, arrival_station_id, travel_dist, duration)
     )
-"""
-)
 
-# add the station data to the database
-with open(
-    "./dataset/stations/helsinki_espoo_bike_stations.csv",
-    newline="",
-    encoding="utf-8-sig",
-) as station_file:
-    station_reader = csv.DictReader(station_file)
+    cursor.execute(
+        """
+        CREATE TABLE journey (
+        journey_id INT NOT NULL AUTO_INCREMENT,
+        departure DATETIME NOT NULL,
+        arrival DATETIME NOT NULL,
+        departure_station_id SMALLINT,
+        arrival_station_id SMALLINT,
+        travel_dist INT NOT NULL,
+        duration INT AS (TIMESTAMPDIFF(SECOND, departure, arrival)),
+        
+        PRIMARY KEY (journey_id),
+        FOREIGN KEY (departure_station_id) REFERENCES bike_station(station_id),
+        FOREIGN KEY (arrival_station_id) REFERENCES bike_station(station_id),
+        UNIQUE(departure, arrival, departure_station_id, arrival_station_id, travel_dist, duration)
+        )
+    """
+    )
 
-    # ensure no duplicate station ids
-    station_ids = set()
+    cursor.execute("USE test_db")
 
-    for idx, station in enumerate(station_reader):
-        loop_iteration = idx + 1
-        station_ids.add(station["ID"])
+    cursor.execute(
+        """
+    CREATE TABLE bike_station (
+        station_id SMALLINT NOT NULL,
+        name_fi VARCHAR(40),
+        name_swe VARCHAR(40),
+        name_eng VARCHAR(40),
+        address_fi VARCHAR(40),
+        address_swe VARCHAR(40),
+        city_fi VARCHAR(40),
+        city_swe VARCHAR(40),
+        operator VARCHAR(40),
+        capacity SMALLINT,
+        longitude FLOAT,
+        latitude FLOAT,
 
-        if len(station_ids) < loop_iteration:
-            # we have encountered a duplicate id
-            print(f'duplicate stations detected, id: {station["ID"]}')
+        PRIMARY KEY(station_id)
+        )
+    """
+    )
 
-            # fix the duplication and try again
-            break
+    cursor.execute(
+        """
+        CREATE TABLE journey (
+        journey_id INT NOT NULL AUTO_INCREMENT,
+        departure DATETIME NOT NULL,
+        arrival DATETIME NOT NULL,
+        departure_station_id SMALLINT,
+        arrival_station_id SMALLINT,
+        travel_dist INT NOT NULL,
+        duration INT AS (TIMESTAMPDIFF(SECOND, departure, arrival)),
+        
+        PRIMARY KEY (journey_id),
+        FOREIGN KEY (departure_station_id) REFERENCES bike_station(station_id),
+        FOREIGN KEY (arrival_station_id) REFERENCES bike_station(station_id),
+        UNIQUE(departure, arrival, departure_station_id, arrival_station_id, travel_dist, duration)
+        )
+    """
+    )
 
-        try:
-            station_info = remove_empty_values_from_dict(station)
-            db_station = map_station_csv_cols_to_db_cols(station_info)
+    cursor.execute("USE bikejourneydb")
 
-            query = construct_insert_query("bike_station", db_station)
-            cursor.execute(query)
-
-        except Exception as e:
-            print(e)
-            print(query)
-
-db.commit()
-
-# add the journey data to the database
-journey_files = os.listdir("./dataset/journeys/")
-
-journey_data = []
-
-uniques = set()
-# detect files containing duplicates
-files_with_duplicates = {
-    5: False,
-    6: False,
-    7: False,
-}
-entries = 0
-duplicates = 0
-
-for file_name in journey_files:
+    # add the station data to the database
     with open(
-        f"./dataset/journeys/{file_name}",
+        "./dataset/stations/helsinki_espoo_bike_stations.csv",
         newline="",
         encoding="utf-8-sig",
-    ) as journey_file:
-        journey_reader = csv.DictReader(journey_file)
+    ) as station_file:
+        station_reader = csv.DictReader(station_file)
 
-        if "5" in file_name:
-            file_num = 5
-        elif "6" in file_name:
-            file_num = 6
-        elif "7" in file_name:
-            file_num = 7
+        # ensure no duplicate station ids
+        station_ids = set()
 
-        for journey in journey_reader:
-            entries += 1
-            entry = (
-                journey["Departure"],
-                journey["Return"],
-                journey["Departure station id"],
-                journey["Return station id"],
-                journey["Covered distance (m)"],
-                journey["Duration (sec.)"],
-            )
-            uniques.add(entry)
-            if len(uniques) < entries:
-                duplicates += 1
-                entries -= 1
+        for idx, station in enumerate(station_reader):
+            loop_iteration = idx + 1
+            station_ids.add(station["ID"])
 
-                if not files_with_duplicates[file_num]:
-                    files_with_duplicates[file_num] = True
+            if len(station_ids) < loop_iteration:
+                # we have encountered a duplicate id
+                print(f'duplicate stations detected, id: {station["ID"]}')
+
+                # fix the duplication and try again
+                break
+
             try:
+                station_info = remove_empty_values_from_dict(station)
+                db_station = map_station_csv_cols_to_db_cols(station_info)
+
+                query = construct_insert_query("bike_station", db_station)
+                cursor.execute(query)
+
+            except Exception as e:
+                print(e)
+
+    db.commit()
+
+
+
+
+    # add the journey data to the database
+    journey_files = os.listdir("./dataset/journeys/")
+    journey_files = [j for j in journey_files if j.endswith(".csv")]
+
+    journey_data = []
+
+    for file_name in journey_files:
+        with open(
+            f"./dataset/journeys/{file_name}",
+            newline="",
+            encoding="utf-8-sig",
+        ) as journey_file:
+            journey_reader = csv.DictReader(journey_file)
+
+            for journey in journey_reader:
+                
                 journey_entry = (
                     journey["Departure"],
                     journey["Return"],
@@ -216,46 +255,29 @@ for file_name in journey_files:
                     journey["Covered distance (m)"],
                 )
 
-                # check the requirements given in the assignment
-                departure = datetime.strptime(journey_entry[0], "%Y-%m-%dT%H:%M:%S")
-                arrival = datetime.strptime(journey_entry[1], "%Y-%m-%dT%H:%M:%S")
-                duration = (arrival - departure).total_seconds()
+                if validate_journey(journey_entry):
+                    journey_data.append(journey_entry)
 
-                dist = int(journey_entry[4])
+    query = """
+        INSERT IGNORE INTO journey
+            (departure, arrival, departure_station_id, arrival_station_id, travel_dist)
+        VALUES
+            (%s, %s, %s, %s, %s)
+    """
 
-                if duration < 10 or dist < 10:
-                    continue
+    # too large to execute in one batch, break it up
+    indeces = list(range(0, len(journey_data), len(journey_data) // 100))
+    indeces.append(len(journey_data))
 
-                journey_data.append(journey_entry)
+    for i in range(len(indeces) - 1):
+        start = indeces[i]
+        stop = indeces[i + 1]
 
-            except:
-                # print(f"failed to add journey entry in file {file_name}, row {idx+2}")
-                continue
+        cursor.executemany(query, journey_data[start:stop])
+        
+    db.commit()
+    cursor.close()
+    db.close()
 
-query = """
-    INSERT IGNORE INTO journey
-        (departure, arrival, departure_station_id, arrival_station_id, travel_dist)
-    VALUES
-        (%s, %s, %s, %s, %s)
-"""
-
-# too large to execute in one batch, break it up
-indeces = list(range(0, len(journey_data), len(journey_data) // 100))
-indeces.append(len(journey_data))
-
-#print("indeces: ", indeces)
-#print("last item (should be len(items)):", indeces[-1])
-
-for i in range(len(indeces) - 1):
-    start = indeces[i]
-    stop = indeces[i + 1]
-
-    cursor.executemany(query, journey_data[start:stop])
-    #print("success")
-
-#print(f"total count of duplicates: {duplicates}")
-#print("files with dupes: ", files_with_duplicates)
-
-db.commit()
-cursor.close()
-db.close()
+if __name__ == "__main__":
+    main()
