@@ -1,7 +1,7 @@
 import { Journey } from '../models/journeyModel.js';
 import { Station } from '../models/stationModel.js';
 
-async function getJourneyBatch(offset, limit, orderBy, desc) {
+const getJourneyBatch = async (offset, limit, orderBy, desc) => {
   let queryOptions = {
     limit,
     offset,
@@ -33,6 +33,12 @@ async function getJourneyBatch(offset, limit, orderBy, desc) {
   const journeys = Journey.findAll(queryOptions);
 
   return journeys;
-}
+};
 
-export { getJourneyBatch };
+const createJourney = async (journey) => {
+  const newJourney = await Journey.create(journey);
+  await newJourney.reload();
+  return newJourney;
+};
+
+export { getJourneyBatch, createJourney };

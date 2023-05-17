@@ -1,6 +1,9 @@
 import { Router } from 'express';
 import * as journeyController from '../controllers/journeyController.js';
 
+import { matchedData, validationResult } from 'express-validator';
+import { journeyPostValidator } from '../validators.js';
+
 import logger from '../../utils/logger.js';
 
 const journeyRouter = Router();
@@ -37,6 +40,24 @@ journeyRouter.get('/', async (req, res, next) => {
     res.json(journeys);
   } catch (error) {
     next(error);
+  }
+});
+
+journeyRouter.post('/', journeyPostValidator, async (req, res, next) => {
+  const result = validationResult(req);
+
+  if (result.isEmpty()) {
+    const validatedJourney = matchedData(req);
+
+    try {
+      let newJourney = await journeyController.createJourney(validatedJourney);
+
+      res.json(newJourney);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    res.json({ errors: result.array() });
   }
 });
 

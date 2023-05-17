@@ -10,4 +10,9 @@ const getStationById = async (id) => {
   return station;
 };
 
-export { getAllStations, getStationById };
+const createStation = async (station) => {
+  const createdStation = await Station.create(station);
+  return createdStation;
+}
+
+export { getAllStations, getStationById, createStation };

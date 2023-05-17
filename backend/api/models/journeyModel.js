@@ -41,7 +41,6 @@ const Journey = sequelize.define(
     },
     duration: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
   },
   {

@@ -23,7 +23,8 @@ const config = {
 
 const app = express();
 
-app.use(cors())
+app.use(cors());
+app.use(express.json());
 
 //log requests
 app.use(requestLogger);

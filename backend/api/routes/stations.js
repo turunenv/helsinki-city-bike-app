@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import * as stationController from '../controllers/stationController.js';
 import { Journey } from '../models/journeyModel.js';
+import { stationPostValidator } from '../validators.js';
+import { matchedData, validationResult } from 'express-validator';
 
 const stationRouter = Router();
 
@@ -44,6 +46,24 @@ stationRouter.get('/:stationId', async (req, res, next) => {
   }
 });
 
-stationRouter.post('/');
+stationRouter.post('/', stationPostValidator, async (req, res, next) => {
+  const result = validationResult(req);
+
+  if (result.isEmpty()) {
+    const validatedStation = matchedData(req);
+
+    try {
+      const newStation = await stationController.createStation(
+        validatedStation
+      );
+
+      res.json(newStation);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    res.json({ errors: result.array() });
+  }
+});
 
 export { stationRouter };
