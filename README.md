@@ -9,19 +9,45 @@ This project is my submission for the Solita Dev Academy 2023 pre-assignment. Th
 The assignment contained a list of functional requirements together with some extra features. Some of them were **recommended**, and others considered _additional_. The following is a list of those features, marked either completed :white_check_mark: or yet to be implemented :round_pushpin::
 
 #### Data import: 
-**import data to db** :white_check_mark:, **validate the data** :white_check_mark:, **exclude journeys lasting less than 10s** :white_check_mark:, **exclude journeys with distance less than 10m** :white_check_mark:
+- **import data to db** :white_check_mark: 
+- **validate the data** :white_check_mark: 
+- **exclude journeys lasting less than 10s** :white_check_mark:
+- **exclude journeys with distance less than 10m** :white_check_mark:
 
 #### Journey list view: 
-**list the journeys** :white_check_mark:, **for each journey, show departure and return stations, covered distance in km and duration in mins** :white_check_mark:, **exclude journeys lasting less than 10s** :white_check_mark:, **exclude journeys with distance less than 10m** :white_check_mark:, _pagination_ :white_check_mark:, _ordering per column_ :white_check_mark:, _searching_ :round_pushpin:, _filtering_ :round_pushpin:
+- **list the journeys** :white_check_mark: 
+- **for each journey, show departure and return stations, covered distance in km and duration in mins** :white_check_mark:
+- **exclude journeys lasting less than 10s** :white_check_mark:
+- **exclude journeys with distance less than 10m** :white_check_mark:
+- _pagination_ :white_check_mark:
+- _ordering per column_ :white_check_mark:
+- _searching_ :round_pushpin:
+- _filtering_ :round_pushpin:
 
 #### Station list view:
-**List all stations** :white_check_mark:, _pagination_ :white_check_mark:, _searching_ :white_check_mark:
+- **list all stations** :white_check_mark: 
+- _pagination_ :white_check_mark:
+- _searching_ :white_check_mark:
 
 #### Single station view
+- **station name** :white_check_mark:
+- **station address** :white_check_mark:
+- **number of journeys starting from the station** :white_check_mark:
+- **number of journeys ending at the station** :white_check_mark:
+- _station location on the map_ :round_pushpin:
+- _the average distance of a journey starting from the station_ :round_pushpin:
+- _the average distance of a journey ending at the station_ :round_pushpin:
+- _top 5 most popular return stations for journeys starting from the station_ :round_pushpin:
+- _top 5 most popular departure stations for journeys ending at the station_ :round_pushpin:
+- _ability to filter all the calculations per month_ :round_pushpin:
 
 #### Extras
-_Endpoints to store new journeys data and new bicycle stations_ :white_check_mark:, _running backend in Docker_
+- _endpoints to store new journeys data and new bicycle stations_ :white_check_mark: 
+- _running backend in Docker_
 :white_check_mark:
+- _E2E tests_ :round_pushpin:
+- _UI for adding journeys or bicycle stations_ :round_pushpin:
+
 
 ## Running the project
 There are two ways to run the project:
@@ -64,5 +90,10 @@ HOST=localhost
 ## Running tests
 
 ## Tech choices
+### Backend
+The backend technologies used were Node.js together with express, and mysql for the database. I have a reasonable amount of experience working with Node in school courses and projects, so the choice felt natural. In the dataset, there was a clear foreign-key relationship between the arrival and departure station id:s in the journeys and the stations, so it seemed clear that the use of an SQL database would get the job done.
+
+### Frontend
+For the frontend, React was used. The first idea was just to implement server side rendering with the EJS template engine, but switching to React allowed some UI operations to be instantaneous (for example, searching for a single bike station).
 
 ## TODO
