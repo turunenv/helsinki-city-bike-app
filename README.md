@@ -9,18 +9,18 @@ This project is my submission for the Solita Dev Academy 2023 pre-assignment. Th
 The assignment contained a list of functional requirements together with some extra features. Some of them were **recommended**, and others considered _additional_. The following is a list of those features, marked either completed :white_check_mark: or yet to be implemented :round_pushpin::
 
 #### Data import: 
-> **import data to db** :white_check_mark:, **validate the data** :white_check_mark:, **exclude journeys lasting less than 10s** :white_check_mark:, **exclude journeys with distance less than 10m** :white_check_mark:
+**import data to db** :white_check_mark:, **validate the data** :white_check_mark:, **exclude journeys lasting less than 10s** :white_check_mark:, **exclude journeys with distance less than 10m** :white_check_mark:
 
 #### Journey list view: 
-> **list the journeys** :white_check_mark:, **for each journey, show departure and return stations, covered distance in km and duration in mins** :white_check_mark:, **exclude journeys lasting less than 10s** :white_check_mark:, **exclude journeys with distance less than 10m** :white_check_mark:, _pagination_ :white_check_mark:, _ordering per column_ :white_check_mark:, _searching_ :round_pushpin:, _filtering_ :round_pushpin:
+**list the journeys** :white_check_mark:, **for each journey, show departure and return stations, covered distance in km and duration in mins** :white_check_mark:, **exclude journeys lasting less than 10s** :white_check_mark:, **exclude journeys with distance less than 10m** :white_check_mark:, _pagination_ :white_check_mark:, _ordering per column_ :white_check_mark:, _searching_ :round_pushpin:, _filtering_ :round_pushpin:
 
 #### Station list view:
-> **List all stations** :white_check_mark:, _pagination_ :white_check_mark:, _searching_ :white_check_mark:
+**List all stations** :white_check_mark:, _pagination_ :white_check_mark:, _searching_ :white_check_mark:
 
 #### Single station view
 
 #### Extras
-> _Endpoints to store new journeys data and new bicycle stations_ :white_check_mark:, _running backend in Docker_
+_Endpoints to store new journeys data and new bicycle stations_ :white_check_mark:, _running backend in Docker_
 :white_check_mark:
 
 ## Running the project
