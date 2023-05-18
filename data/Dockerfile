@@ -2,13 +2,18 @@ FROM alpine:latest
 
 RUN apk update && apk add --no-cache python3 py3-pip
 
-COPY ./dataset ./dataset
-COPY populate_db.py .
+COPY ./dataset /dataset
+COPY populate_db.py /
 
 RUN apk add --no-cache unzip
 
-RUN unzip "./dataset/journeys/*.zip"
-RUN unzip "./dataset/stations/*.zip"
+WORKDIR "/dataset/journeys"
+RUN unzip -o "*.zip"
+
+WORKDIR "/dataset/stations"
+RUN unzip -o "*.zip"
+
+WORKDIR /
 
 RUN touch .env \
   && echo "DB_USER=root" >> .env \

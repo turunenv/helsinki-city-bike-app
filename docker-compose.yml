@@ -16,7 +16,9 @@ services:
             retries: 10
 
   populate_db:
-    build: './data'
+    build: 
+      context: './data'
+      dockerfile: 'Dockerfile'
     profiles:
       - setup
 
