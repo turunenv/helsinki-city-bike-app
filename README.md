@@ -54,7 +54,7 @@ There are two ways to run the project:
 1. Run backend with Docker (recommended)
 2. Run with local mysql installation
 
-> <span style={color:red}>**Prerequisites**</span> for both options: [Node.js (version 18+)](https://nodejs.org/en)
+> **Prerequisites** for both options: [Node.js (version 18+)](https://nodejs.org/en)
 
 Clone the project repository, make sure you have Node.js installed and move on to one of the two options.
 
@@ -78,10 +78,10 @@ DB_PASSWORD=\<password\>
 HOST=localhost 
 
 2. Unzip the data-files located in **data/dataset/journeys** and **data/dataset/stations**
-
-3. Navigate to **data/** and run _**python3 populate_db.py**_
-4. Navigate to **backend/** and run _**npm run dev**_
-4. Navigate to **frontend/** and run _**npm run dev**_
+3. Navigate to **data/** and run _**pip install -r requirements.txt**_
+4. Navigate to **data/** and run _**python3 populate_db.py**_
+5. Navigate to **backend/** and run _**npm run dev**_
+6. Navigate to **frontend/** and run _**npm run dev**_
 
 
 
