@@ -5,7 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "NODE_ENV=TEST mocha './api/test/*.js' --exit",
+    "test": "NODE_ENV=TEST mocha './api/test/*.test.js' --exit",
     "dev": "nodemon server.js",
     "lint": "eslint src --ext js, --report-unused-disable-directives --max-warnings 0"
   },
