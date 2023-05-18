@@ -92,11 +92,22 @@ Clone the project repository, make sure you have Node.js installed and move on t
 
 4. Activate the python virtual environment by running _**source env/bin/activate**_
 5. From **data/**, run _**pip install -r requirements.txt**_
-6. From **data/**, run python3 populate_db.py
-7. Navigate to **backend/** and run _**npm run dev**_
-8. Navigate to **frontend/** and run _**npm run dev**_
+6. From **data/**, run _**python3 populate_db.py**_
+7. Navigate to **backend/** and first run _**npm install**_, then _**npm run dev**_
+8. On a different terminal window, navigate to **frontend/**, then first run _**npm install**_, then _**npm run dev**_
 
 ## Running tests
+- If you chose option 1:  
+1. Stop the containers with Ctrl+C or by running _**docker compose down**_ from the project root
+2. From the project root, run _**docker compose --profile testing up**_ (Note: this will only work after building the db as instructed earlier in the "Run the backend with Docker" section.). This will first run the tests and then start up the backend app normally.
+
+- If you chose option 2:
+1. Stop the backend app with Ctrl+C
+2. Run _**npm test**_ from the **/backend** directory
+3. You may also run the unittests for the python validate_journey function used in the populate_db.py script by navigating to **/data** and running _**python3 validate_journey.test.py**_
+
+
+
 
 ## Tech choices
 
@@ -109,3 +120,5 @@ The backend technologies used were Node.js together with express, and mysql for 
 For the frontend, React was used. The first idea was just to implement server side rendering with the EJS template engine, but switching to React allowed some UI operations to be instantaneous (for example, searching for a single bike station).
 
 ## TODO
+
+With more time, the next steps in this project would have been the unfinished features marked in the features section. The main development roadmap would be to take the app from a simple data display app into one that can provide insights through smart data aggregation.
