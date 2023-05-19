@@ -13,6 +13,7 @@ import LandingPage from './routes/landingPage'
 import Stations, { loader as stationsLoader } from './routes/stations';
 import Station, {loader as stationLoader} from './routes/station';
 import Journeys from './routes/journeys';
+import NotFound from './routes/notFound';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: '/journeys',
         element: <Journeys />
+      },
+      {
+        path: '*',
+        element: <NotFound />
       }
     ]
   },
