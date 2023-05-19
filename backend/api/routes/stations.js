@@ -61,12 +61,12 @@ stationRouter.post('/', stationPostValidator, async (req, res, next) => {
         validatedStation
       );
 
-      res.json(newStation);
+      res.status(201).json(newStation);
     } catch (error) {
       next(error);
     }
   } else {
-    res.json({ errors: result.array() });
+    res.status(400).json({ errors: result.array() });
   }
 });
 

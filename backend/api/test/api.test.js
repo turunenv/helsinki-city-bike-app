@@ -106,6 +106,64 @@ describe('api-test suite', function () {
         });
       });
     });
+
+    describe('POST /api/journeys', () => {
+      it('creates a new journey with correct request body', (done) => {
+        server.post('/api/journeys')
+          .type('application/json')
+          .send({
+            departure: '2023-05-12T20:44:58',
+            arrival: '2023-05-12T20:54:58',
+            departureStationId: 13,
+            arrivalStationId: 11,
+            travelDist: 1000,
+          })
+          .end((err, res) => {
+            res.should.have.status(201);
+            expect(Number(res.body.journeyId)).to.be.a('number');
+            expect(res.body.travelDist).to.equal(1000);
+            expect(Number(res.body.duration)).to.be.a('number');
+
+            done();
+        });
+      });
+    });
+
+    describe('POST /api/journeys', () => {
+      it('returns 400 when required fields are missing from the request body', (done) => {
+        server.post('/api/journeys')
+          .type('application/json')
+          .send({
+            arrival: '2023-05-12T20:54:58',
+            departureStationId: 13,
+            arrivalStationId: 11,
+            travelDist: 1000,
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            done();
+        });
+      });
+    });
+
+    describe('POST /api/journeys', () => {
+      it('returns 400 when departure is before arrival', (done) => {
+        server.post('/api/journeys')
+          .type('application/json')
+          .send({
+            departure: '2023-05-12T20:59:58',
+            arrival: '2023-05-12T20:54:58',
+            departureStationId: 13,
+            arrivalStationId: 11,
+            travelDist: 1000,
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            done();
+        });
+      });
+    });
+
   });
 
   describe('Stations', () => {
@@ -121,8 +179,17 @@ describe('api-test suite', function () {
     });
 
     describe('GET /api/stations/1111111', () => {
-      it('should return status 400', (done) => {
+      it('should return status 404', (done) => {
         server.get('/api/stations/1111111').end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+      });
+    });
+
+    describe('GET /api/stations/1111asdf', () => {
+      it('should return status 404', (done) => {
+        server.get('/api/stations/1111asdf').end((err, res) => {
           res.should.have.status(400);
           done();
         });
@@ -140,6 +207,43 @@ describe('api-test suite', function () {
           done();
         });
       });
+    });
+
+    describe('POST /api/stations', () => {
+      it('creates a new station with correct request body', (done) => {
+        server.post('/api/stations')
+          .type('application/json')
+          .send({
+            stationId: 1111,
+            nameFi: 'Muumilaakson asema',
+            addressFi: 'Muumilaakso',
+            cityFi: 'Helsinki',
+          })
+          .end((err, res) => {
+            res.should.have.status(201);
+            expect(res.body.stationId).to.equal(1111);
+            expect(res.body.nameFi).to.equal('Muumilaakson asema');
+            expect(res.body.addressFi).to.equal('Muumilaakso');
+
+            done();
+        });
+      });
+    });
+
+    describe('POST /api/stations', () => {
+      it('returns 400 when required fields are missing from the request body', (done) => {
+        server.post('/api/stations')
+          .type('application/json')
+          .send({
+            nameFi: 'Muumilaakson asema',
+            addressFi: 'Muumilaakso',
+            cityFi: 'Helsinki',
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            done();
+        });
+      })
     });
   });
 

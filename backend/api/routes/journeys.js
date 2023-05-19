@@ -52,12 +52,12 @@ journeyRouter.post('/', journeyPostValidator, async (req, res, next) => {
     try {
       let newJourney = await journeyController.createJourney(validatedJourney);
 
-      res.json(newJourney);
+      res.status(201).json(newJourney);
     } catch (error) {
       next(error);
     }
   } else {
-    res.json({ errors: result.array() });
+    res.status(400).json({ errors: result.array() });
   }
 });
 
