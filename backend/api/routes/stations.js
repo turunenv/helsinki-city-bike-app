@@ -25,7 +25,7 @@ stationRouter.get('/:stationId', async (req, res, next) => {
     }
     let station = await stationController.getStationById(id);
     if (!station) {
-      res.status(404).json({'message': 'station with id ${id} does not exist'})
+      res.status(404).json({ message: 'station with id ${id} does not exist' });
       return;
     }
     const stationAsDepartureCount = await Journey.count({

@@ -13,6 +13,4 @@ async function getJourneyBatch(offset, orderBy, desc) {
   return journeys.json();
 }
 
-export {
-  getJourneyBatch,
-}
+export { getJourneyBatch };

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
-import {  getAllStations } from '../services/stationService';
+import { getAllStations } from '../services/stationService';
 
 import PaginationControls from '../components/PaginationControls';
 
@@ -19,44 +19,45 @@ export default function Stations() {
   const handleFilterChange = (e) => {
     setStationFilter(e.target.value);
     setStationPage(0);
-  }
-  
+  };
+
   const maxStationsPerPage = 30;
 
   let selectedStations = stations;
   if (stationFilter) {
-    selectedStations = stations.filter(station => {
-      return station.nameFi.toLowerCase().includes(stationFilter.toLowerCase())
-    })
-  } 
+    selectedStations = stations.filter((station) => {
+      return station.nameFi.toLowerCase().includes(stationFilter.toLowerCase());
+    });
+  }
 
   //calculate indeces to show based on stationPage
   let startIndex = stationPage * maxStationsPerPage;
-  let stopIndex = Math.min(startIndex + maxStationsPerPage, selectedStations.length);
+  let stopIndex = Math.min(
+    startIndex + maxStationsPerPage,
+    selectedStations.length
+  );
 
   let stationsToRender = selectedStations.slice(startIndex, stopIndex);
   let isLastPage = startIndex >= selectedStations.length - maxStationsPerPage;
 
-  
   return (
     <>
       <h1>Bike Stations</h1>
-      <div className="station-filter" >
+      <div className="station-filter">
         <label htmlFor="station-filter-input">
           <b>Filter by name:</b>
         </label>
-        <input 
-          type="text" 
+        <input
+          type="text"
           value={stationFilter}
           onChange={handleFilterChange}
           id="station-filter-input"
-        >
-        </input>
+        ></input>
       </div>
       <div className="data-container">
         <table>
           <tbody>
-            {stationsToRender.map(station=> {
+            {stationsToRender.map((station) => {
               return (
                 <tr key={station.stationId}>
                   <td>
@@ -65,16 +66,16 @@ export default function Stations() {
                     </Link>
                   </td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </table>
       </div>
-      <PaginationControls 
+      <PaginationControls
         page={stationPage}
         setPage={setStationPage}
         isLastPage={isLastPage}
       />
     </>
-  )
+  );
 }

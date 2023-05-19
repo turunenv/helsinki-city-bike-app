@@ -3,8 +3,8 @@ import { Outlet, Link } from 'react-router-dom';
 export default function Root() {
   return (
     <>
-      <header className='main-header'>
-        <nav className='main-nav'>
+      <header className="main-header">
+        <nav className="main-nav">
           <ul>
             <li>
               <Link to={'/'}>Home</Link>
@@ -13,7 +13,7 @@ export default function Root() {
               <Link to={'/stations'}>Stations</Link>
             </li>
             <li>
-              <Link to={'/journeys'}>Journeys</Link>  
+              <Link to={'/journeys'}>Journeys</Link>
             </li>
           </ul>
         </nav>
@@ -22,7 +22,6 @@ export default function Root() {
         <Outlet />
       </main>
       <footer></footer>
-
     </>
-  )
+  );
 }

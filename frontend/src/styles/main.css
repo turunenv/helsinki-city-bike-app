@@ -20,7 +20,8 @@ main {
   margin: 20px 10px;
 }
 
-body, ul {
+body,
+ul {
   margin: 0;
 }
 
@@ -88,8 +89,6 @@ tbody > tr:nth-child(2n) {
   background-color: #ddd;
 }
 
-
-
 /* LANDING PAGE */
 .hero-title {
   font-size: 3rem;
@@ -141,6 +140,3 @@ fieldset {
 #error-status {
   color: red;
 }
-
-
-

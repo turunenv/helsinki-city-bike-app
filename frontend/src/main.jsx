@@ -1,17 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import './styles/main.css';
 
 import ErrorPage from './error-page';
 import Root from './routes/root';
-import LandingPage from './routes/landingPage'
+import LandingPage from './routes/landingPage';
 import Stations, { loader as stationsLoader } from './routes/stations';
-import Station, {loader as stationLoader} from './routes/station';
+import Station, { loader as stationLoader } from './routes/station';
 import Journeys from './routes/journeys';
 import NotFound from './routes/notFound';
 
@@ -23,7 +20,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <LandingPage />
+        element: <LandingPage />,
       },
       {
         path: '/stations',
@@ -37,19 +34,18 @@ const router = createBrowserRouter([
       },
       {
         path: '/journeys',
-        element: <Journeys />
+        element: <Journeys />,
       },
       {
         path: '*',
-        element: <NotFound />
-      }
-    ]
+        element: <NotFound />,
+      },
+    ],
   },
-  
-])
+]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);

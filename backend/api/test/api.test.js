@@ -109,7 +109,8 @@ describe('api-test suite', function () {
 
     describe('POST /api/journeys', () => {
       it('creates a new journey with correct request body', (done) => {
-        server.post('/api/journeys')
+        server
+          .post('/api/journeys')
           .type('application/json')
           .send({
             departure: '2023-05-12T20:44:58',
@@ -125,13 +126,14 @@ describe('api-test suite', function () {
             expect(Number(res.body.duration)).to.be.a('number');
 
             done();
-        });
+          });
       });
     });
 
     describe('POST /api/journeys', () => {
       it('returns 400 when required fields are missing from the request body', (done) => {
-        server.post('/api/journeys')
+        server
+          .post('/api/journeys')
           .type('application/json')
           .send({
             arrival: '2023-05-12T20:54:58',
@@ -142,13 +144,14 @@ describe('api-test suite', function () {
           .end((err, res) => {
             res.should.have.status(400);
             done();
-        });
+          });
       });
     });
 
     describe('POST /api/journeys', () => {
       it('returns 400 when departure is before arrival', (done) => {
-        server.post('/api/journeys')
+        server
+          .post('/api/journeys')
           .type('application/json')
           .send({
             departure: '2023-05-12T20:59:58',
@@ -160,10 +163,9 @@ describe('api-test suite', function () {
           .end((err, res) => {
             res.should.have.status(400);
             done();
-        });
+          });
       });
     });
-
   });
 
   describe('Stations', () => {
@@ -211,7 +213,8 @@ describe('api-test suite', function () {
 
     describe('POST /api/stations', () => {
       it('creates a new station with correct request body', (done) => {
-        server.post('/api/stations')
+        server
+          .post('/api/stations')
           .type('application/json')
           .send({
             stationId: 1111,
@@ -226,13 +229,14 @@ describe('api-test suite', function () {
             expect(res.body.addressFi).to.equal('Muumilaakso');
 
             done();
-        });
+          });
       });
     });
 
     describe('POST /api/stations', () => {
       it('returns 400 when required fields are missing from the request body', (done) => {
-        server.post('/api/stations')
+        server
+          .post('/api/stations')
           .type('application/json')
           .send({
             nameFi: 'Muumilaakson asema',
@@ -242,8 +246,8 @@ describe('api-test suite', function () {
           .end((err, res) => {
             res.should.have.status(400);
             done();
-        });
-      })
+          });
+      });
     });
   });
 

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PaginationControls from '../components/PaginationControls';
 import JourneyFilter from '../components/JourneyFilter';
 
-import { getJourneyBatch } from "../services/journeyService";
+import { getJourneyBatch } from '../services/journeyService';
 
 export default function Journeys() {
   const [journeys, setJourneys] = useState([]);
@@ -17,17 +17,15 @@ export default function Journeys() {
 
   useEffect(() => {
     let fetchNotCancelled = true;
-    getJourneyBatch(batchOffset, orderBy, orderByDesc)
-    .then(newJourneys => {
+    getJourneyBatch(batchOffset, orderBy, orderByDesc).then((newJourneys) => {
       if (fetchNotCancelled) {
         setJourneys(newJourneys);
       }
-    }
-    )
+    });
     return () => {
       fetchNotCancelled = false;
-    }
-  }, [batchOffset, orderBy, orderByDesc])
+    };
+  }, [batchOffset, orderBy, orderByDesc]);
 
   let startIndex = page * maxJourneysPerPage;
   let stopIndex = Math.min(startIndex + maxJourneysPerPage, journeys.length);
@@ -46,66 +44,64 @@ export default function Journeys() {
     }
 
     setPage(newPage);
-  }
+  };
 
   return (
     <>
-    <h1>Journeys</h1>
-    <JourneyFilter 
-      orderBy={orderBy}
-      setOrderBy={setOrderBy}
-      orderByDesc={orderByDesc}
-      setOrderByDesc={setOrderByDesc}
-      setBatchOffset={setBatchOffset}
-      setPage={setPage}
-    />
-    <div className='data-container'>
-      <table>
-        <thead>
-          <tr>
-            <th>Departure station</th>
-            <th>Arrival station</th>
-            <th>Distance covered (km)</th>
-            <th>Duration (min)</th>
-          </tr>
-        </thead>
-        <tbody>
-        {journeysToRender.map(journey => {
-          return (
-            <tr key={ journey.journeyId }>
-              <td>
-                <Link to={`/stations/${journey.departureStation.stationId}`}>
-                  { journey.departureStation.nameFi }
-                </Link>
-                </td>
-              <td>
-                <Link to={`/stations/${journey.arrivalStation.stationId}`}>
-                  { journey.arrivalStation.nameFi }
-                </Link>
-              </td>
-              <td>{ (journey.travelDist / 1000).toFixed(2) }</td>
-              <td>{ (journey.duration / 60).toFixed(1) }</td>
-            </tr>
-          )
-        })}
-        </tbody>
-      </table>
-      {(page === 0 && batchOffset !== 0) && (
-        <button onClick={() => fetchNewJourneyBatch(-1)}>
-          Previous
-        </button>
-      )}
-      <PaginationControls 
-        page={page}
+      <h1>Journeys</h1>
+      <JourneyFilter
+        orderBy={orderBy}
+        setOrderBy={setOrderBy}
+        orderByDesc={orderByDesc}
+        setOrderByDesc={setOrderByDesc}
+        setBatchOffset={setBatchOffset}
         setPage={setPage}
-        isLastPage={isLastPage}
       />
-      {isLastPage && (
-        <button onClick={() => fetchNewJourneyBatch(1)}>
-          Next
-        </button>
-      )}
-    </div>
+      <div className="data-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Departure station</th>
+              <th>Arrival station</th>
+              <th>Distance covered (km)</th>
+              <th>Duration (min)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {journeysToRender.map((journey) => {
+              return (
+                <tr key={journey.journeyId}>
+                  <td>
+                    <Link
+                      to={`/stations/${journey.departureStation.stationId}`}
+                    >
+                      {journey.departureStation.nameFi}
+                    </Link>
+                  </td>
+                  <td>
+                    <Link to={`/stations/${journey.arrivalStation.stationId}`}>
+                      {journey.arrivalStation.nameFi}
+                    </Link>
+                  </td>
+                  <td>{(journey.travelDist / 1000).toFixed(2)}</td>
+                  <td>{(journey.duration / 60).toFixed(1)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        {page === 0 && batchOffset !== 0 && (
+          <button onClick={() => fetchNewJourneyBatch(-1)}>Previous</button>
+        )}
+        <PaginationControls
+          page={page}
+          setPage={setPage}
+          isLastPage={isLastPage}
+        />
+        {isLastPage && (
+          <button onClick={() => fetchNewJourneyBatch(1)}>Next</button>
+        )}
+      </div>
     </>
-  )
+  );
 }

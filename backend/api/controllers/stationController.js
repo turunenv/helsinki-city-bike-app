@@ -13,6 +13,6 @@ const getStationById = async (id) => {
 const createStation = async (station) => {
   const createdStation = await Station.create(station);
   return createdStation;
-}
+};
 
 export { getAllStations, getStationById, createStation };

@@ -4,5 +4,5 @@ export default function NotFound() {
       <h1>This page does not exist!</h1>
       <p>Get back on track using the links above.</p>
     </div>
-  )
+  );
 }
