@@ -1,7 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../server.js';
-import { stationRouter } from '../routes/stations.js';
 import { Journey } from '../models/journeyModel.js';
 import { Station } from '../models/stationModel.js';
 

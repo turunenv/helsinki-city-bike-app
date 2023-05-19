@@ -1,5 +1,6 @@
 import logger from './utils/logger.js';
 
+// eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
   logger.error(`error: ${err.message}`);
   const status = err.status || 400;
