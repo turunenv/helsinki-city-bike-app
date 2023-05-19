@@ -7,7 +7,9 @@ async function getStationById(id) {
   const station = await fetch(`http://localhost:3000/api/stations/${id}`);
 
   if (station.status === 400) {
-    throw new Error(`station with id ${id} does not exist!`);
+    throw new Error(`${id} is not a valid station id!`);
+  } else if (station.status === 404) {
+    return ({ status: 404 });
   }
   return station.json();
 }

@@ -20,9 +20,13 @@ stationRouter.get('/:stationId', async (req, res, next) => {
   const id = req.params.stationId;
 
   try {
+    if (!Number(id)) {
+      throw new Error(`${id} is not a valid station id!`);
+    }
     let station = await stationController.getStationById(id);
     if (!station) {
-      throw new Error(`Station with id ${id} does not exist!`);
+      res.status(404).json({'message': 'station with id ${id} does not exist'})
+      return;
     }
     const stationAsDepartureCount = await Journey.count({
       where: {
