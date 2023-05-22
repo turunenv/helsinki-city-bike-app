@@ -39,8 +39,8 @@ services:
       - DB_USER=root
       - DB_PASSWORD=secret_pw
     depends_on:
-      populate_db:   
-        condition: service_completed_successfully
+      mysql:   
+        condition: service_healthy
     
 
   backend:

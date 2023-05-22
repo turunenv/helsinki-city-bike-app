@@ -73,6 +73,7 @@ Clone the project repository, make sure you have Node.js installed and move on t
 2. From the root of the project folder, run **docker compose --profile setup up**. This will build the database and start the backend application. On following startups, the database is preserved in a volume, so just run **docker compose up**.
 
 - Note: building the database will take a few minutes, so this is a great time to grab a cup of coffee :coffee:
+- the setup is done when you see the following log message on your screen: _app running on port 3000_
 
 3. In another terminal window, navigate to the **frontend/** directory, and run _**npm install**_. After the installation is completed, run _**npm run dev**_. The frontend React app will now be running at _http://localhost:5173_.
 
@@ -100,15 +101,15 @@ Clone the project repository, make sure you have Node.js installed and move on t
 
 This project contains three sets of tests:
 
-1. Unittests for the Python function validate_journey that is used in validating the journey data in the importing script.
+### 1. Unittests for the Python function validate_journey that is used in validating the journey data in the importing script.
 
   - to run the tests, you need python 3.8+ installed: navigate to **/data** and run _**python3 validate_journey.test.py**_
 
-2. Unittests to test some of the React components used in the frontend of the app.
+### 2. Unittests to test some of the React components used in the frontend of the app.
 
 - to run the tests, navigate to **/frontend**, make sure you have ran _**npm install**_, and then run _**npm test**_
 
-3. Integration tests for the backend API
+### 3. Integration tests for the backend API
 
 
 
