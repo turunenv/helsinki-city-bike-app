@@ -97,14 +97,30 @@ Clone the project repository, make sure you have Node.js installed and move on t
 8. On a different terminal window, navigate to **frontend/**, then first run _**npm install**_, then _**npm run dev**_
 
 ## Running tests
-- If you chose option 1:  
-1. Stop the containers with Ctrl+C or by running _**docker compose down**_ from the project root
-2. From the project root, run _**docker compose --profile testing up**_ (Note: this will only work after building the db as instructed earlier in the "Run the backend with Docker" section.). This will first run the tests and then start up the backend app normally.
+
+This project contains three sets of tests:
+
+1. Unittests for the Python function validate_journey that is used in validating the journey data in the importing script.
+
+  - to run the tests, you need python 3.8+ installed: navigate to **/data** and run _**python3 validate_journey.test.py**_
+
+2. Unittests to test some of the React components used in the frontend of the app.
+
+- to run the tests, navigate to **/frontend**, make sure you have ran _**npm install**_, and then run _**npm test**_
+
+3. Integration tests for the backend API
+
+
+
+If you chose option 1:  
+
+- Stop the containers with Ctrl+C or by running _**docker compose down**_ from the project root
+- From the project root, run _**docker compose --profile testing up**_ (Note: this will only work after building the db as instructed earlier in the "Run the backend with Docker" section.). This will first run the tests and then start up the backend app normally.
 
 - If you chose option 2:
 1. Stop the backend app with Ctrl+C
 2. Run _**npm test**_ from the **/backend** directory
-3. You may also run the unittests for the python validate_journey function used in the populate_db.py script by navigating to **/data** and running _**python3 validate_journey.test.py**_
+
 
 
 
