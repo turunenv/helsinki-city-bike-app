@@ -1,10 +1,5 @@
 # a python script to create and validate the database
 
-import csv
-import re
-import os
-import mysql.connector
-from dotenv import load_dotenv
 from datetime import datetime
 
 
@@ -50,6 +45,7 @@ def map_station_csv_cols_to_db_cols(dict):
 
     return ret_dict
 
+
 def construct_insert_query(table_name, dict):
     col_names = "("
     values = "("
@@ -65,6 +61,7 @@ def construct_insert_query(table_name, dict):
     query = f"INSERT INTO {table_name} {col_names} VALUES {values}"
 
     return query
+
 
 def validate_journey(journey_entry):
     try:
@@ -83,17 +80,26 @@ def validate_journey(journey_entry):
 
         if dep_station_id < 0 or arr_station_id < 0:
             return False
-        
+
         return True
 
     except:
         return False
 
+
 def main():
+    import csv
+    import re
+    import os
+    import mysql.connector
+    from dotenv import load_dotenv
+
     load_dotenv()
 
     db = mysql.connector.connect(
-        host=os.getenv("HOST"), user=os.getenv("DB_USER"), password=os.getenv("DB_PASSWORD")
+        host=os.getenv("HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
     )
 
     cursor = db.cursor()
@@ -228,9 +234,6 @@ def main():
 
     db.commit()
 
-
-
-
     # add the journey data to the database
     journey_files = os.listdir("./dataset/journeys/")
     journey_files = [j for j in journey_files if j.endswith(".csv")]
@@ -246,7 +249,6 @@ def main():
             journey_reader = csv.DictReader(journey_file)
 
             for journey in journey_reader:
-                
                 journey_entry = (
                     journey["Departure"],
                     journey["Return"],
@@ -274,10 +276,11 @@ def main():
         stop = indeces[i + 1]
 
         cursor.executemany(query, journey_data[start:stop])
-        
+
     db.commit()
     cursor.close()
     db.close()
+
 
 if __name__ == "__main__":
     main()
