@@ -1,6 +1,7 @@
 # a python script to create and validate the database
 
 from datetime import datetime
+import re
 
 
 # helper function to ensure we don't add empty strings instead of null to the database
@@ -89,7 +90,6 @@ def validate_journey(journey_entry):
 
 def main():
     import csv
-    import re
     import os
     import mysql.connector
     from dotenv import load_dotenv
