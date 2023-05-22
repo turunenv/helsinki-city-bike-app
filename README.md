@@ -19,8 +19,6 @@ The assignment contained a list of functional requirements together with some ex
 
 - **list the journeys** :white_check_mark:
 - **for each journey, show departure and return stations, covered distance in km and duration in mins** :white_check_mark:
-- **exclude journeys lasting less than 10s** :white_check_mark:
-- **exclude journeys with distance less than 10m** :white_check_mark:
 - _pagination_ :white_check_mark:
 - _ordering per column_ :white_check_mark:
 - _searching_ :round_pushpin:
